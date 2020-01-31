@@ -250,3 +250,75 @@ nothing to commit, working tree clean
 场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令`git reset HEAD `，就回到了场景1，第二步按场景1操作。
 
 场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考[版本回退](https://www.liaoxuefeng.com/wiki/896043488029600/897013573512192)一节，不过前提是没有推送到远程库。
+
+#### 删除文件
+
+Git中，删除也是一个修改操作，我们实战一下，先添加一个新文件`test.txt`到Git并且提交：
+
+```python
+$ git add test.txt
+
+$ git commit -m "add test.txt"
+[master b84166e] add test.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 test.txt
+```
+
+一般情况下，你通常直接在文件管理器中把没用的文件删了，或者用`rm`命令删了：
+
+```python
+rm test.txt
+```
+
+这个时候，Git知道你删除了文件，因此，工作区和版本库就不一致了，`git status`命令会立刻告诉你哪些文件被删除了：
+
+```python
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	deleted:    test.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+现在你有两个选择，**一是确实要从版本库中删除该文件，那就用命令`git rm`删掉，并且`git commit`**;**另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本**：
+
+```python
+$ git rm test.txt
+rm 'test.txt'
+
+$ git commit -m "remove test.txt"
+[master d46f35e] remove test.txt
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 test.txt
+
+####################删错了，恢复#########
+#git checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。
+git checkout -- test.txt
+```
+
+现在文件就从版本库中被删除了。
+
+git 进入了编辑状态，<font color='red'>**按下ctr+c后，回到命令行状态。**</font>
+
+```python
+vim编辑器是linux系统中必备的编辑器，GIT工具又Linux创始人写出来的，所有就把vim编辑器也用在GIT上。
+
+那如何操作vim编辑器(这里只简单介绍 一下)：
+
+按下字母键i或a或o，此时进入到可编辑状态，这时就可以输入你的注释
+当你输入完之后，按下Esc键就可退出编辑状态，回到一般模式。
+最后就是怎么退出vim编辑器并提交commit， 有两种方法：
+输入两字大写字母ZZ（记住是大写）
+输入:wq或:wq!(强行退出)
+```
+
+##### 小结
+
+命令`git rm`用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失**最近一次提交后你修改的内容**。
+
+
+

@@ -79,15 +79,29 @@ git log --pretty=oneline
 
 首先，Git必须知道当前版本是哪个版本，在Git中，用`HEAD`表示当前版本，也就是最新的提交`1094adb...`（注意我的提交ID和你的肯定不一样），上一个版本就是`HEAD^`，上上一个版本就是`HEAD^^`，当然往上100个版本写100个`^`比较容易数不过来，所以写成`HEAD~100`。
 
-
-
-
-
 ```python
+# git log --oneline 查看版本信息
+git log --oneline
+
 #把当前版本回退到上一个版本，使用`git reset`命令：
 git reset --hard HEAD^
 
 ```
 
+用`git log`再看看现在版本库的状态：最新的那个版本`append GPL`已经看不到了！好比你从21世纪坐时光穿梭机来到了19世纪，想再回去已经回不去了，肿么办？只要上面的命令行窗口还没有被关掉，你就可以顺着往上找啊找啊，找到那个版本的`commit id`是`1094adb...`，于是就可以指定回到未来的某个版本：
 
+```python
+$ git reset --hard 1094a
+HEAD is now at 83b0afe append GPL
+```
 
+回退到了某个版本，关掉了电脑，第二天早上就后悔了，想恢复到新版本怎么办？找不到新版本的`commit id`怎么办？Git提供了一个命令`git reflog`用来记录你的每一次命令：
+
+```python
+HEAD指向的版本就是当前版本，因此，Git使用命令在版本的历史之间穿梭
+git reset --hard commit_id。
+穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本:
+git log
+要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本:
+git reflog
+```

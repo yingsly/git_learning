@@ -105,3 +105,28 @@ git log
 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本:
 git reflog
 ```
+
+#### 工作区和暂存区
+
+Git和其他版本控制系统如SVN的一个不同之处就是有暂存区的概念。
+
+**工作区（Working Directory）**就是你在电脑里能看到的目录，比如我的`D:\ProgramData\GitHubProject\GitTUT`文件夹就是一个工作**版本库（Repository)**,工作区有一个隐藏目录<font color=red>**.git**</font>，这个不算工作区，而是Git的版本库。版本库里存了很多东西，其中最重要的就是成为**<font color=red>stage(或者叫index)的暂存区</font>**，还有Git为我们自动创建的第一个分支**master**,以及指向master的一个指针叫**HEAD**。
+
+![](https://www.liaoxuefeng.com/files/attachments/919020037470528/0)区。
+
+
+
+前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的：
+
+第一步用`git add`把文件添加进去，把文件修改添加到暂存区；
+第二步用`git commit`提交更改，把暂存区的所有内容提交到当前分支。
+
+因为我们创建Git版本库时，Git自动为我们创建了唯一一个`master`分支，所以，现在，`git commit`就是往`master`分支上提交更改。
+
+你可以简单理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。
+
+**`git add`命令实际上就是把要提交的所有修改放到暂存区（Stage），然后，执行`git commit`就可以一次性把暂存区的所有修改提交到分支。**
+
+一旦提交后，如果你又没有对工作区做任何修改，那么工作区就是“干净”的.
+
+![image-20200131224827574](D:\ProgramData\GitHubProject\GitTUT\干净的工作区.jpg)
